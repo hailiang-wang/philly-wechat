@@ -25,6 +25,7 @@
     "lodash": "^4.16.3",
     "log4js": "^0.6.38",
     "parse": "^1.9.2",
+    "parseproxy": "^1.0.0",
     "wechaty": "github:wechaty/wechaty"
   }
 }
