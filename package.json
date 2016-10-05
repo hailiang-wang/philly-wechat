@@ -1,0 +1,30 @@
+{
+  "name": "philly-wechat",
+  "version": "1.0.0",
+  "description": "A Bridge for Philly Service and Wechat",
+  "main": "app.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samurais/philly-wechat.git"
+  },
+  "keywords": [
+    "chatbot",
+    "wechat"
+  ],
+  "author": "hai liang wang <hailiang.hl.wang@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Samurais/philly-wechat/issues"
+  },
+  "homepage": "https://github.com/Samurais/philly-wechat#readme",
+  "dependencies": {
+    "co": "^4.6.0",
+    "lodash": "^4.16.3",
+    "log4js": "^0.6.38",
+    "parse": "^1.9.2",
+    "wechaty": "github:wechaty/wechaty"
+  }
+}

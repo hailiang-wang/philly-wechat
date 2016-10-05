@@ -1,0 +1,9 @@
+*sublime-*
+node_modules/
+*.swp
+*.swo
+profile.wechaty.json
+default-profile-name.wechaty.json
+config/environment/development.js
+!logs/README.md
+logs/*
