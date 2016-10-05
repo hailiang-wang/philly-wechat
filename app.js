@@ -6,7 +6,7 @@
 
 const co = require('co');
 const conf = require('./config/environment');
-const { Wechaty, Config, log } = require('Wechaty');
+const { Wechaty, Config, log, Message } = require('Wechaty');
 const parseproxy = require('parseproxy');
 const bot = new Wechaty({ profile: Config.DEFAULT_PROFILE });
 const logger = require('./services/logging.service').getLogger('app');
@@ -16,12 +16,17 @@ parseproxy.init(conf.parse.serverURL, conf.parse.appId, conf.parse.javascriptKey
 
 /** register handler onCreate event. */
 parseproxy.subscribeMessageOutbound({
-    onCreate: (message) => {
-        logger.debug('subscribeMessageOutbound', 'onCreate', message);
-        // after all middlewares in microloom app have processed 
-        // message, app.handle get called with the context object.
-        // all values assigned by this is passed.
-    }
+    onCreate: co.wrap(function*(messageOutbound) {
+        logger.debug('messageOutboundData', JSON.stringify(messageOutbound));
+        let messageInbound = yield messageOutbound.get('replyToInboundMessage').fetch();
+        try {
+            yield bot.reply(new Message(messageInbound.get('wechatSource').rawObj),
+                    messageOutbound.get('textMessage'))
+                .then(() => { logger.info('Bot reply done.') });
+        } catch (e) {
+            logger.error(e);
+        }
+    })
 }, [{
     ref: 'equalTo',
     key: 'channel',
