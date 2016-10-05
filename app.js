@@ -22,7 +22,11 @@ parseproxy.subscribeMessageOutbound({
         // message, app.handle get called with the context object.
         // all values assigned by this is passed.
     }
-});
+}, [{
+    ref: 'equalTo',
+    key: 'channel',
+    value: 'wechat'
+}]);
 
 bot.on('login', user => log.info('Bot', `${user.name()} logined`))
 
