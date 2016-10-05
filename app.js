@@ -6,7 +6,7 @@
 
 const co = require('co');
 const conf = require('./config/environment');
-const { Wechaty, Config, log, Message } = require('Wechaty');
+const { Wechaty, Config, log, Message } = require('wechaty');
 const parseproxy = require('parseproxy');
 const bot = new Wechaty({ profile: Config.DEFAULT_PROFILE });
 const logger = require('./services/logging.service').getLogger('app');
