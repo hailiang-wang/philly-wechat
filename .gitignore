@@ -2,6 +2,7 @@
 node_modules/
 *.swp
 *.swo
+nohup.out
 profile.wechaty.json
 default-profile-name.wechaty.json
 config/environment/development.js
