@@ -12,7 +12,9 @@ Service built on top of [wechaty](https://github.com/wechaty/wechaty) and [Parse
 ## Installation
 Depend on Node.js and other tools.
 
-### install tools on Ubuntu
+### Ubuntu Server
+Run with headless browser.
+
 ```
 apt-get update -q && apt-get install -qy \\
      chromium-browser \\
