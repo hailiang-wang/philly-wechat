@@ -1,4 +1,7 @@
 # Philly Wechat
+
+![image](https://cloud.githubusercontent.com/assets/3538629/19137472/b0855adc-8ba6-11e6-90e6-69c571be3bab.png)
+
 Wechat Channel for AI Chatbot at [Philly Chatbot](https://github.com/snaplingo-org/chatbot-mvp).
 
 Service built on top of [wechaty](https://github.com/wechaty/wechaty) and [Parse Server](https://parseplatform.github.io/#server)
