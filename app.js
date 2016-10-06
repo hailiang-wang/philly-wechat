@@ -21,7 +21,7 @@ parseproxy.subscribeMessageOutbound({
         logger.debug('messageOutboundData', JSON.stringify(messageOutbound));
         let messageInbound = yield messageOutbound.get('replyToInboundMessage').fetch();
         try {
-            logg.debug('messageOutboundResponse', messageOutbound.get('textMessage'));
+            logger.debug('messageOutboundResponse', messageOutbound.get('textMessage'));
             yield bot.reply(new Message(messageInbound.get('wechatSource').rawObj),
                     messageOutbound.get('textMessage'))
                 .then(() => { logger.info('Bot reply done.') });
