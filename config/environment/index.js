@@ -13,6 +13,8 @@ var all = {
         serverURL: 'http://localhost:1337/parse',
         masterKey: '',
         javascriptKey: '',
-    }
+    },
+    // only reply to @botName in Group 
+    botName: '瓦力'
 };
 module.exports = _.merge(all, require('./' + env + '.js') || {});

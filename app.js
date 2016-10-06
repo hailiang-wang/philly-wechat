@@ -5,6 +5,7 @@
  */
 
 const co = require('co');
+const _ = require('lodash');
 const conf = require('./config/environment');
 const { Wechaty, Config, log, Message } = require('wechaty');
 const parseproxy = require('parseproxy');
@@ -20,6 +21,7 @@ parseproxy.subscribeMessageOutbound({
         logger.debug('messageOutboundData', JSON.stringify(messageOutbound));
         let messageInbound = yield messageOutbound.get('replyToInboundMessage').fetch();
         try {
+            logg.debug('messageOutboundResponse', messageOutbound.get('textMessage'));
             yield bot.reply(new Message(messageInbound.get('wechatSource').rawObj),
                     messageOutbound.get('textMessage'))
                 .then(() => { logger.info('Bot reply done.') });
@@ -52,33 +54,37 @@ bot.on('login', user => log.info('Bot', `${user.name()} logined`))
 
     .then(co.wrap(function*(msg) {
 
-        let room = m.room();
-        let from = m.from();
+            let room = m.room();
+            let from = m.from();
 
-        logger.debug((room ? '[' + room.topic() + ']' : '') + '<' + from.name() + '>' + ':' + m.toStringDigest());
+            logger.debug((room ? '[' + room.topic() + ']' : '') + '<' + from.name() + '>' + ':' + m.toStringDigest());
+            
+            // not handle self message.
+            if (bot.self(m))
+                return;
+            
+            // filter message by private or in group @botName
+            if (!room || (room && _.includes(m.get('content'), '@' + conf.botName))) {
 
-        let messageInboundData = {
-            fromUserId: from.name(),
-            fromGroupId: room ? room.topic() : null,
-            channel: 'wechat',
-            type: 'textMessage',
-            textMessage: m.get('content'),
-            wechatSource: m
-        };
-        logger.debug('messageInboundData', messageInboundData);
-        // if (/^(ding|ping|bing)$/i.test(m.get('content')) && !bot.self(m)) {
-        //     bot.reply(m, 'dong')
-        //         .then(() => { logger.info('Bot', 'REPLY: dong') })
-        // }
-        return yield parseproxy.createMessageInbound(messageInboundData);
-
-    }))
-
-    .then(function(messageInbound) {
-        logger.info('messageInbound created', messageInbound.toJSON());
-    })
-
-    .catch(e => logger.error('Bot', 'ready: %s', e));
+                let messageInboundData = {
+                    fromUserId: from.name(),
+                    fromGroupId: room ? room.topic() : null,
+                    channel: 'wechat',
+                    type: 'textMessage',
+                    textMessage: _.trim(_.replace(m.get('content'), '@' + conf.botName, '')),
+                    wechatSource: m
+                };
+                logger.debug('messageInboundData', messageInboundData);
+                // if (/^(ding|ping|bing)$/i.test(m.get('content')) && !bot.self(m)) {
+                //     bot.reply(m, 'dong')
+                //         .then(() => { logger.info('Bot', 'REPLY: dong') })
+                // }
+                return yield parseproxy.createMessageInbound(messageInboundData);
+            } else {
+                logger.info('discard message ', JSON.stringify(m));
+            }
+        }))
+        .catch(e => logger.error('Bot', 'ready: %s', e));
 })
 
 bot.init()
