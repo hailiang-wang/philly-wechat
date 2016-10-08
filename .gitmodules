@@ -1,0 +1,3 @@
+[submodule "wechaty"]
+	path = wechaty
+	url = git@github.com:wechaty/wechaty.git
