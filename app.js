@@ -32,7 +32,7 @@ parseproxy.subscribeMessageOutbound({
 }, [{
     ref: 'equalTo',
     key: 'channel',
-    value: 'wechat'
+    val: 'wechat'
 }]);
 
 bot.on('login', user => log.info('Bot', `${user.name()} logined`))
